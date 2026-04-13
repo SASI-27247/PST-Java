@@ -1,0 +1,55 @@
+import java.util.*;
+import java.util.*;
+
+public class Solution {
+
+    public static int[] maxSubarray(int[] arr) {
+
+        // ----- Maximum Subarray (Kadane's Algorithm) -----
+        int maxCurrent = arr[0];
+        int maxGlobal = arr[0];
+
+        for (int i = 1; i < arr.length; i++) {
+            maxCurrent = Math.max(arr[i], maxCurrent + arr[i]);
+            maxGlobal = Math.max(maxGlobal, maxCurrent);
+        }
+
+        // ----- Maximum Subsequence -----
+        int subsequenceSum = 0;
+        int maxElement = arr[0];
+
+        for (int num : arr) {
+            if (num > 0) {
+                subsequenceSum += num;
+            }
+            maxElement = Math.max(maxElement, num);
+        }
+
+        // If all numbers are negative
+        if (subsequenceSum == 0) {
+            subsequenceSum = maxElement;
+        }
+
+        return new int[]{maxGlobal, subsequenceSum};
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int t = sc.nextInt();
+
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            int[] result = maxSubarray(arr);
+            System.out.println(result[0] + " " + result[1]);
+        }
+
+        sc.close();
+    }
+}
